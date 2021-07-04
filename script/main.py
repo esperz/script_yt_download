@@ -33,14 +33,15 @@ try:
                       default="eg. https://www.youtube.com/watch?...")
     with Progress() as progress:
         console.print(link)
-        task1 = progress.add_task("[red]Downloading...", total=1000)
         yt = YouTube(link)
+        console.print(yt.title, style="dark_cyan")
         video = yt.streams.filter(only_audio=True).first()
+        task1 = progress.add_task("[red]Downloading...", total=1000)
         video.download(path)
 
         while not progress.finished:
             progress.update(task1, advance=0.9)
-            time.sleep(0.02)
+            time.sleep(0.01)
 except KeyboardInterrupt:
     console.print("Ups! some error with Keyboard.", style="bold red")
 

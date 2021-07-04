@@ -31,18 +31,20 @@ try:
         for line in read:
             with Progress() as progress:
                 console.print(line, style="bold red\n")
-                task1 = progress.add_task("[red]Downloading...", total=1000)
                 #search link on youtube
                 yt = YouTube(line)
+                # print video title
+                console.print(yt.title, style="dark_cyan")
                 # search only audio
                 video = yt.streams.filter(only_audio=True).first()
+                task1 = progress.add_task("[red]Downloading...", total=1000)
                 #download audio to path
                 video.download(path)
 
                 # custom progess bar
                 while not progress.finished:
                     progress.update(task1, advance=0.9)
-                    time.sleep(0.02)
+                    time.sleep(0.01)
 except KeyboardInterrupt:
     console.print("Ups! some error with Keyboard.", style="bold red")
 
